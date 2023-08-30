@@ -1,0 +1,47 @@
+[
+  {
+    "title": "El eternauta - Héctor Germán Oesterheld",
+    "description": "Novela",
+    "price": 2500,
+    "id": "gnzFs6sPGMurYpZWvx3IX"
+  },
+  {
+    "title": "Mr. Gwyn - Alessandro Baricco",
+    "description": "Novela",
+    "price": 5000,
+    "id": "jYJN_gfXr65WBlxhDuxaf"
+  },
+  {
+    "title": "El año I de la Revolución Rusa - Victor Serge",
+    "description": "Historia",
+    "price": 5000,
+    "id": "Oa6_fm1YpG14FDhW3z03x"
+  },
+  {
+    "title": "Severino Di Giovanni : el idealista de la violencia - Osvaldo Bayer",
+    "description": "Biografías",
+    "price": 7000,
+    "id": "1oJLDGVN0axb8q6socL_d"
+  },
+  {
+    "id": "1oJLDGVN0axb8q6socL_d1",
+    "title": "El fin de la infancia - Arhur C. Clarke",
+    "description": "Novela",
+    "price": 5000,
+    "code": 1
+  },
+  {
+    "id": "1oJLDGVN0axb8q6socL_d11",
+    "title": "Blade runner - Philip K. Dick",
+    "description": "Novela",
+    "price": "4500",
+    "code": "2"
+  },
+  {
+    "id": "1oJLDGVN0axb8q6socL_d111",
+    "title": "La soledad de los moribundos - Norbert Elias",
+    "description": "Ensayo",
+    "price": "4300",
+    "code": "3"
+  }
+]

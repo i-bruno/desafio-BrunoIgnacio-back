@@ -1,0 +1,20 @@
+[
+    {
+        "id": "ESCPii5h1Hh3ECUhom_BM",
+        "products": [
+            {
+                "productById": {
+                    "title": "El eternauta - Héctor Germán Oesterheld",
+                    "description": "Novela",
+                    "price": 2500,
+                    "id": "gnzFs6sPGMurYpZWvx3IX"
+                },
+                "cantidad": 1
+            }
+        ]
+    },
+    {
+        "id": "ESCPii5h1Hh3ECUhom_BM",
+        "carts": []
+    }
+]

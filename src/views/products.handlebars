@@ -1,0 +1,39 @@
+{{#if isValid}}
+<section class="products">
+<div class="container">
+    {{#each docs}}
+    <div class="card">
+        <div class="contentBx">
+        <p>Titulo: {{this.title}}</this></p>
+        <p>Descripción: {{this.description}}</p>
+        <p>Precio: $ {{this.price}}</p>
+        <p>Stock: {{this.stock}}</p>
+        <a href="#">Comprar</a>
+        </div>
+    </div>
+    <br>
+    {{/each}}
+</div>
+<br>
+
+<div class="pagination">
+    {{#if hasPrevPage}}
+    <a href={{this.prevLink}}>
+        Anterior
+    </a>
+    {{/if}}
+
+    &nbsp;
+    {{this.page}}
+    &nbsp;
+
+    {{#if hasNextPage}}
+    <a href={{this.nextLink}}> Siguiente</a>
+    {{/if}}
+</div>
+</section>
+
+{{else}}
+
+<h1>No hay libros para mostrar</h1>
+{{/if}}
