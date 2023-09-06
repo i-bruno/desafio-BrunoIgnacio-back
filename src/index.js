@@ -8,7 +8,13 @@ import cartRouter from "./router/carts.router.js"
 import mongoose from "mongoose"
 import usersRouter from "./router/users.router.js"
 import productRouter from "./router/products.router.js"
-import { productsModel } from "./models/products.model.js"
+import productsModel from "./models/products.model.js"
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+// import FileStore from "session-file-store"
+import MongoStore from "connect-mongo"
+import sessionsRouter from "./router/session.router.js"
+import usersViewRouter from "./router/users.views.router.js"
 
 const DB = 'mongodb+srv://i-bruno:cuervo22@cluster0.o4fj8y7.mongodb.net/store?retryWrites=true&w=majority'
 const connectMongoDB = async () =>{
@@ -18,7 +24,7 @@ const connectMongoDB = async () =>{
 
     let products = await productsModel.paginate({}, {limit: 10, page: 1});
 
-    console.log(products);
+    // console.log(products);
 
   } catch (error) {
     console.error("No se pudo conectar a la BD con Mongoose:" + error);
@@ -28,8 +34,23 @@ const connectMongoDB = async () =>{
 
 connectMongoDB();
 
+// const fileStorage = FileStore(session);
+
 const app = express()
 const PORT = 8080;
+
+app.use(cookieParser());
+app.use(session({
+  // store:new fileStorage({path:'./sessions', ttl:100, retries:0}),
+  store: MongoStore.create({
+    mongoUrl: DB,
+    mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
+    ttl: 10
+  }),
+  secret:"elsecreto",
+  resave:false,
+  saveUninitialized:false
+}))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -42,11 +63,15 @@ app.set("view engine", "handlebars")
 
 //rutas
 app.use("/", viewRouter)
+app.use("/users", usersViewRouter);
+app.use("/api/sessions", sessionsRouter);
 // app.use("/api", productRouter)
 // app.use("/api", cartRouter)
-app.use("/api/users", usersRouter);
+
+// app.use("/api/users", usersRouter);
 app.use("/api/products", productRouter);
-app.use("/api/cart", cartRouter)
+app.use("/api/cart", cartRouter);
+
 
 
 const httpServer = app.listen(PORT, () => {

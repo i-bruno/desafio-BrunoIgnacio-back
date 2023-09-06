@@ -9,7 +9,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
         require: [true, 'Correo es obligatorio']
-    }
+    },
+    age: Number,
+    password: String
 })
 
-export const userModel = mongoose.model(userCollection, userSchema)
+const userModel = mongoose.model(userCollection, userSchema);
+
+export default userModel;
