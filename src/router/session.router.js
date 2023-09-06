@@ -5,8 +5,8 @@ const router = Router();
 
 router.post("/register", async (req, res) =>{
     const {first_name, last_name, email, age, password} = req.body;
-    console.log("Registrando usuario");
-    console.log(req.body);
+    // console.log("Registrando usuario");
+    // console.log(req.body);
 
     const exist = await userModel.findOne({ email });
     if (exist){
@@ -22,7 +22,7 @@ router.post("/register", async (req, res) =>{
     }
 
     const result = await userModel.create(user);
-    res.send({status: "Success", message:"Usuario cread correctamente con ID: " + result.id})
+    res.send({status: "Success", message:"Usuario creado correctamente con ID: " + result.id})
 })
 
 router.post("/login", async (req,res)=>{
@@ -33,8 +33,8 @@ router.post("/login", async (req,res)=>{
 
     req.session.user = {
         name:`${user.last_name}, ${user.first_name}`,
-        email: user.email,
-        age: user.age
+        email: `${user.email}`,
+        age: `${user.age}`
     }
 
     res.send({status: "success", payload: req.session.user, message: "Logueo realizado con exito!"})
