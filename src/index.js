@@ -2,7 +2,7 @@ import express from "express"
 import { __dirname } from "./utils.js"
 import handlebars from "express-handlebars"
 import { Server } from "socket.io"
-import viewRouter from "./router/view.router.js"
+
 import cartRouter from "./router/carts.router.js"
 // import ProductManager from "./controllers/productManager.js"
 import mongoose from "mongoose"
@@ -13,10 +13,59 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 // import FileStore from "session-file-store"
 import MongoStore from "connect-mongo"
-import sessionsRouter from "./router/session.router.js"
+//Passport imports
+import initializePassport from "../src/config/passport.config.js"
+import passport from "passport"
+//Routers
+import viewRouter from "./router/view.router.js"
 import usersViewRouter from "./router/users.views.router.js"
+import sessionsRouter from "./router/session.router.js"
+import githubLoginViewRouter from './router/github-login.views.router.js'
+
+const app = express()
+
+//JSON settings:
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+
+//handlebars
+app.engine("handlebars", handlebars.engine())
+app.set("views", __dirname + "/views")
+app.set("view engine", "handlebars")
 
 const DB = 'mongodb+srv://i-bruno:cuervo22@cluster0.o4fj8y7.mongodb.net/store?retryWrites=true&w=majority'
+
+app.use(session({
+  store: MongoStore.create({
+    mongoUrl: DB,
+    mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
+    ttl: 10
+  }),
+  secret:"elsecreto",
+  resave:false,
+  saveUninitialized:false
+}))
+
+//Middlewares Passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+//rutas
+app.use("/", viewRouter)
+app.use("/users", usersViewRouter);
+app.use("/products", productRouter);
+app.use("/cart", cartRouter);
+app.use("/api/sessions", sessionsRouter);
+app.use("/github", githubLoginViewRouter);
+
+
+const PORT = 8080;
+
+const httpServer = app.listen(PORT, () => {
+  console.log(`Servidor express en puerto ${PORT}`)
+  })
+
 const connectMongoDB = async () =>{
   try{
     await mongoose.connect(DB);
@@ -34,49 +83,29 @@ const connectMongoDB = async () =>{
 
 connectMongoDB();
 
+
+
+
 // const fileStorage = FileStore(session);
 
-const app = express()
-const PORT = 8080;
+
+
+
+
 
 app.use(cookieParser());
-app.use(session({
-  // store:new fileStorage({path:'./sessions', ttl:100, retries:0}),
-  store: MongoStore.create({
-    mongoUrl: DB,
-    mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
-    ttl: 10
-  }),
-  secret:"elsecreto",
-  resave:false,
-  saveUninitialized:false
-}))
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
+
+
 app.use(express.static(__dirname + "/public"))
 
-//handlebars
-app.engine("handlebars", handlebars.engine())
-app.set("views", __dirname + "/views")
-app.set("view engine", "handlebars")
-
-//rutas
-app.use("/", viewRouter)
-app.use("/users", usersViewRouter);
-app.use("/api/sessions", sessionsRouter);
-// app.use("/api", productRouter)
-// app.use("/api", cartRouter)
-
-// app.use("/api/users", usersRouter);
-app.use("/api/products", productRouter);
-app.use("/api/cart", cartRouter);
 
 
 
-const httpServer = app.listen(PORT, () => {
-console.log(`Servidor express en puerto ${PORT}`)
-})
+
+
+
+
 
 // const pmanager = new ProductManager(__dirname + "/models/products.json")
 // const socketServer = new Server(httpServer)

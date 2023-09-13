@@ -1,15 +1,18 @@
 <div>
     <h1>Login</h1>
     <form id="loginForm">
-                <label for="">Email</label>
-        <input type="email">
+        <label for="">Email</label>
+        <input name="email">
         <br>
-                <label for="">Contraseña</label>
-        <input type="password">
+        <label for="">Contraseña</label>
+        <input name="password">
         <br>
         <input type="submit">
     </form>
     <p>Si no tenés usuario: <a href="/users/register">Ingrese aquí</a></p>
+</div>
+<div>
+    <a href="/api/sessions/githubcallback"><button>Entrar con Github</button></a>
 </div>
 
 <script src="/js/login.js"></script>

@@ -6,8 +6,8 @@ const router = Router();
 //Crear
 router.post('/', async (req, res) => {
     try {
-        let { title, description, price, stock } = req.body
-        let product = await productsModel.create({ title, description, price, stock });
+        let { title, category, description, price, size, stock } = req.body
+        let product = await productsModel.create({ title, category, description, price, size, stock });
         res.status(201).send({ result: 'success', payload: product })
     } catch (error) {
         console.error("No se pudo crear producto con mongoose" + error);

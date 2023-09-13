@@ -49,6 +49,7 @@ form.addEventListener("submit", (evt) => {
 
   socketCliente.emit("addProduct", {
     title,
+    category,
     description,
     price,
     code,
